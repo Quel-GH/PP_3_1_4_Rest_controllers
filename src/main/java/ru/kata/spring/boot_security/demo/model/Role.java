@@ -1,6 +1,7 @@
 package ru.kata.spring.boot_security.demo.model;
 
 import org.springframework.security.core.GrantedAuthority;
+
 import javax.persistence.*;
 import java.util.Set;
 
@@ -10,9 +11,10 @@ import java.util.Set;
 public class Role implements GrantedAuthority {
     @Id
     private Long id;
+    @Column(unique = true)
     private String role;
     @ManyToMany(mappedBy = "roles")
-    private Set<Users> usersSet;
+    private Set<User> usersSet;
 
     public Long getId() {
         return id;

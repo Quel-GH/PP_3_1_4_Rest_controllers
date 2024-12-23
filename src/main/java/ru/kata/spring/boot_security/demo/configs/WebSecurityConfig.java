@@ -5,34 +5,21 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
-import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-//import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-import org.springframework.security.core.userdetails.User;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.provisioning.InMemoryUserDetailsManager;
-import org.springframework.security.web.SecurityFilterChain;
-import ru.kata.spring.boot_security.demo.model.Role;
-import ru.kata.spring.boot_security.demo.model.Users;
-import ru.kata.spring.boot_security.demo.service.UserService;
-
-import static org.springframework.security.config.Customizer.withDefaults;
+import ru.kata.spring.boot_security.demo.service.MyUserDetailsService;
 
 @Configuration
 @EnableWebSecurity
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
-    private UserService userService;
+    private MyUserDetailsService myUserDetailsService;
     private SuccessUserHandler successUserHandler;
 
     @Autowired
-    public void setUserService(@Lazy UserService userService) {
-        this.userService = userService;
+    public void setMyUserDetailsService(@Lazy MyUserDetailsService myUserDetailsService) {
+        this.myUserDetailsService = myUserDetailsService;
     }
 
     @Autowired
@@ -44,7 +31,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     public DaoAuthenticationProvider daoAuthenticationProvider() {
         DaoAuthenticationProvider authenticationProvider = new DaoAuthenticationProvider();
         authenticationProvider.setPasswordEncoder(passwordEncoder());
-        authenticationProvider.setUserDetailsService(userService);
+        authenticationProvider.setUserDetailsService(myUserDetailsService);
         return authenticationProvider;
     }
 

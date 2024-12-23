@@ -5,14 +5,25 @@
   <title>Add User</title>
 </head>
 <body>
-<form method="post" action="/add">
+<form method="post" th:action="@{/admin/add}" th:object="${user}">
   <label for="username">Username: </label>
-  <input name="username" type="text" id="username">
+  <input type="text" th:field="*{username}" id="username">
 
   <br>
 
   <label for="password">Password: </label>
-  <input name="password" type="text" id="password">
+  <input type="text" th:field="*{password}" id="password">
+
+  <br>
+
+  <h1>Выберите роли для пользователя</h1>
+  <ul>
+    <li th:each="role : ${availableRoles}">
+      <input type="checkbox" th:field="*{roles}" th:value="${role.id}"/>
+      <label th:text="${role}"></label>
+    </li>
+  </ul>
+
 
   <br>
 

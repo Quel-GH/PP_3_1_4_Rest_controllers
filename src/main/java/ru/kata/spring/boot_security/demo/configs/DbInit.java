@@ -1,11 +1,13 @@
-package ru.kata.spring.boot_security.demo.repository;
+package ru.kata.spring.boot_security.demo.configs;
 
-import org.hibernate.Hibernate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 import ru.kata.spring.boot_security.demo.model.Role;
-import ru.kata.spring.boot_security.demo.model.Users;
+import ru.kata.spring.boot_security.demo.model.User;
+import ru.kata.spring.boot_security.demo.repository.RoleRepository;
+import ru.kata.spring.boot_security.demo.repository.UserRepository;
+
 import javax.annotation.PostConstruct;
 import java.util.HashSet;
 import java.util.Set;
@@ -26,11 +28,13 @@ public class DbInit {
     public void setUserRepository(UserRepository userRepository) {
         this.userRepository = userRepository;
     }
+
     @Autowired
     public void setPasswordEncoder(PasswordEncoder passwordEncoder) {
         this.passwordEncoder = passwordEncoder;
     }
-//  Создание ролей и пользователя Админ
+
+    //  Создание ролей и пользователя Админ
     @PostConstruct
     private void postConstruct() {
 //      Создание ролей
@@ -43,7 +47,7 @@ public class DbInit {
         roleRepository.save(normalUser);
         roleRepository.save(admin);
 //      Создание пользователя - с ролью Админ
-        Users adminUser = new Users();
+        User adminUser = new User();
         adminUser.setUsername("admin");
         adminUser.setPassword(passwordEncoder.encode("admin"));
         Set<Role> roles = new HashSet<>();

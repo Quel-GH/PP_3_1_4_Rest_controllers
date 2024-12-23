@@ -27,8 +27,6 @@ public class AdminController {
         return "/main";
     }
 
-//    TODO Перенести
-
 
     @GetMapping(value = "/add")
     public String add(Model model) {

@@ -34,7 +34,7 @@ public class UserServiceImp implements UserService {
     }
 
     @Transactional
-    public User findUserById(Long userId) {
+    public User findUserById(Long userId){
         Optional<User> userFromDb = userRepository.findById(userId);
         return userFromDb.orElse(new User());
     }

@@ -48,8 +48,11 @@ public class DbInit {
         roleRepository.save(admin);
 //      Создание пользователя - с ролью Админ
         User adminUser = new User();
-        adminUser.setUsername("admin");
+        adminUser.setEmail("admin@mail.ru");
         adminUser.setPassword(passwordEncoder.encode("admin"));
+        adminUser.setFirst_name("admin");
+        adminUser.setLast_name("admin");
+        adminUser.setAge(100);
         Set<Role> roles = new HashSet<>();
         roles.add(roleRepository.getById(2L));
         roles.add(roleRepository.getById(1L));

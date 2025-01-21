@@ -4,6 +4,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
+import javax.validation.constraints.*;
 import java.util.Collection;
 import java.util.Set;
 
@@ -13,9 +14,20 @@ public class User implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    @Email
     @Column(unique = true)
-    private String username;
+    private String email;
+    @NotBlank
     private String password;
+    @Pattern(regexp = "^[a-zA-Zа-яА-ЯёЁ]{2,}$"
+            , message = "длина должна быть больше 2 символов, и может содержать только буквы")
+    private String first_name;
+    @Pattern(regexp = "^[a-zA-Zа-яА-ЯёЁ]{2,}$"
+            , message = "длина должна быть больше 2 символов, и может содержать только буквы")
+    private String last_name;
+    @NotNull
+    @Min(value = 1, message = "возраст должен положительным")
+    private int age;
     @Transient
     private String passwordConfirm;
     @ManyToMany(fetch = FetchType.LAZY)
@@ -29,14 +41,14 @@ public class User implements UserDetails {
     public User() {
     }
 
-    public User(String username, String password) {
-        this.username = username;
+    public User(String email, String password) {
+        this.email = email;
         this.password = password;
     }
 
-    public User(Long id, String username, String password) {
+    public User(Long id, String email, String password) {
         this.id = id;
-        this.username = username;
+        this.email = email;
         this.password = password;
     }
 
@@ -48,9 +60,8 @@ public class User implements UserDetails {
         this.id = id;
     }
 
-    @Override
-    public String getUsername() {
-        return username;
+    public String getEmail() {
+        return email;
     }
 
     @Override
@@ -73,8 +84,8 @@ public class User implements UserDetails {
         return true;
     }
 
-    public void setUsername(String username) {
-        this.username = username;
+    public void setEmail(String username) {
+        this.email = username;
     }
 
     @Override
@@ -85,6 +96,11 @@ public class User implements UserDetails {
     @Override
     public String getPassword() {
         return password;
+    }
+
+    @Override
+    public String getUsername() {
+        return email;
     }
 
     public void setPassword(String password) {
@@ -105,5 +121,29 @@ public class User implements UserDetails {
 
     public void setRoles(Set<Role> roles) {
         this.roles = roles;
+    }
+
+    public String getFirst_name() {
+        return first_name;
+    }
+
+    public void setFirst_name(String first_name) {
+        this.first_name = first_name;
+    }
+
+    public String getLast_name() {
+        return last_name;
+    }
+
+    public void setLast_name(String last_name) {
+        this.last_name = last_name;
+    }
+
+    public int getAge() {
+        return age;
+    }
+
+    public void setAge(int age) {
+        this.age = age;
     }
 }

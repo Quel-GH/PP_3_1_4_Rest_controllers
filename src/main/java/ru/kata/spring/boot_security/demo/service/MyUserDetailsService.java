@@ -11,7 +11,7 @@ import ru.kata.spring.boot_security.demo.repository.UserRepository;
 
 @Service
 public class MyUserDetailsService implements UserDetailsService {
-    UserRepository userRepository;
+    private UserRepository userRepository;
 
     @Autowired
     private void setUserRepository(UserRepository userRepository) {
@@ -28,10 +28,4 @@ public class MyUserDetailsService implements UserDetailsService {
         return user;
     }
 
-//    Не нужен в новой сборке
-//    private static Collection<? extends GrantedAuthority> getAuthorities(User user) {
-//        String[] userRoles = user.getRoles().stream().map((role) -> role.getRole()).toArray(String[]::new);
-//        Collection<GrantedAuthority> authorities = AuthorityUtils.createAuthorityList(userRoles);
-//        return authorities;
-//    }
 }

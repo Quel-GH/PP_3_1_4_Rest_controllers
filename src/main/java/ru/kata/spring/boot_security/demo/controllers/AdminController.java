@@ -39,8 +39,6 @@ public class AdminController {
     public String newUserPage(Model model, Principal principal){
         model.addAttribute("userEmail", principal.getName());
         User user = userService.findByUsername(principal.getName());
-//        model.addAttribute("roles", user.getRoles());
-//        model.addAttribute("availableRoles", roleService.allRoles());
         return "bootstrap_admin";
     }
 

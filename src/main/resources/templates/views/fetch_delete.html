@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Delete User</title>
+</head>
+<body>
+<div id="error" style="color: red;"></div>
+
+<h1>Delete User</h1>
+<form id="deleteForm">
+  <input type="hidden" id="userId" name="id" />
+  <label for="id">ID </label>
+  <br/>
+  <span id="id"></span>
+  <br/>
+  <label for="firstName">First Name </label>
+  <br/>
+  <span id="firstName"></span>
+  <br/>
+  <label for="lastName">Last Name </label>
+  <br/>
+  <span id="lastName"></span>
+  <br/>
+  <label for="age">Age</label>
+  <br/>
+  <span id="age"></span>
+  <br/>
+  <label for="email">Email</label>
+  <br/>
+  <span id="email"></span>
+  <br/>
+  <label for="role">Role</label>
+  <br/>
+  <span id="role"></span>
+  <br/>
+  <input type="submit" value="Delete"/>
+</form>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    const urlParams = new URLSearchParams(window.location.search);
+    const userId = urlParams.get('id');
+
+    if (userId) {
+      fetchUserData(userId);
+    } else {
+      document.getElementById('error').textContent = 'User ID is missing.';
+    }
+
+    document.getElementById('deleteForm').addEventListener('submit', function(event) {
+      event.preventDefault();
+      deleteUser(userId);
+    });
+  });
+
+  function fetchUserData(userId) {
+    fetch(`/admin/users/${userId}`)
+            .then(response => {
+              if (!response.ok) {
+                throw new Error('User not found');
+              }
+              return response.json();
+            })
+            .then(data => {
+              document.getElementById('userId').value = data.id;
+              document.getElementById('id').textContent = data.id;
+              document.getElementById('firstName').textContent = data.firstName;
+              document.getElementById('lastName').textContent = data.lastName;
+              document.getElementById('age').textContent = data.age;
+              document.getElementById('email').textContent = data.email;
+              document.getElementById('role').textContent = data.roleUser;
+            })
+            .catch(error => {
+              document.getElementById('error').textContent = error.message;
+            });
+  }
+
+  function deleteUser(userId) {
+    fetch(`/admin/users/${userId}`, {
+      method: 'DELETE'
+    })
+            .then(response => {
+              if (!response.ok) {
+                throw new Error('Failed to delete user');
+              }
+              return response.json();
+            })
+            .then(data => {
+              alert('User deleted successfully');
+              window.location.href = '/admin'; // Перенаправление на страницу со списком пользователей
+            })
+            .catch(error => {
+              document.getElementById('error').textContent = error.message;
+            });
+  }
+</script>
+</body>
+</html>

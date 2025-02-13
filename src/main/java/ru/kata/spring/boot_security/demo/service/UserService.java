@@ -11,7 +11,9 @@ public interface UserService {
 
     List<User> allUsers();
 
-    void saveUser(User user);
+    User saveUser(User user);
 
     boolean deleteUser(Long userId);
+
+    User getCurrentUser();
 }

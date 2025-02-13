@@ -19,11 +19,11 @@ public class UserController {
         this.userService = userService;
     }
 
-    @GetMapping(value = "/user")
-    public String userInfo(Principal principal, Model model) {
-        User user = userService.findByUsername(principal.getName());
-        model.addAttribute("user", user);
-        return "bootstrap_user";
-    }
+//    @GetMapping(value = "/user")
+//    public String userInfo(Principal principal, Model model) {
+//        User user = userService.findByUsername(principal.getName());
+//        model.addAttribute("user", user);
+//        return "bootstrap_user";
+//    }
 
 }

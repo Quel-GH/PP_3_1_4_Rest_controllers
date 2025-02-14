@@ -10,19 +10,21 @@ import ru.kata.spring.boot_security.demo.service.UserService;
 
 import java.util.List;
 
+
 @RestController
 @RequestMapping("/admin")
-public class MyRestController {
+public class AdminRestController {
     private UserService userService;
     private RoleService roleService;
 
     @Autowired
-    public MyRestController(UserService userService, RoleService roleService) {
+    public AdminRestController(UserService userService, RoleService roleService) {
         this.userService = userService;
         this.roleService = roleService;
     }
-//  fetch_admin.html
-    @GetMapping("/users")
+
+    //  fetch_admin.html
+    @GetMapping
     public ResponseEntity<List<User>> getAllUsers() {
         List<User> users = userService.allUsers();
         return ResponseEntity.ok(users);
@@ -34,49 +36,42 @@ public class MyRestController {
         return ResponseEntity.ok(roles);
     }
 
-    @PostMapping("/users")
+    @PostMapping("/newUser")
     public ResponseEntity<User> addUser(@RequestBody User user) {
         User newUser = userService.saveUser(user);
         return ResponseEntity.ok(newUser);
     }
 
-    @PutMapping("/users")
+    @PutMapping("/newUser")
     public ResponseEntity<User> updateUser(@RequestBody User user) {
         User updatedUser = userService.saveUser(user);
         return ResponseEntity.ok(updatedUser);
     }
 
-    @DeleteMapping("/users")
+    @DeleteMapping("/deleteUser")
     public ResponseEntity<Void> deleteUser(@RequestBody User user) {
         userService.deleteUser(user.getId());
         return ResponseEntity.noContent().build();
     }
-//  fetch_user.html
-    @GetMapping("/user")
-    public ResponseEntity<User> getUser() {
-        User user = userService.getCurrentUser();
-        return ResponseEntity.ok(user);
-    }
 
-//   fetch_delete.html
-    @GetMapping("admin/users/{id}")
+    //   fetch_delete.html
+    @GetMapping("deleteUser/{id}")
     public ResponseEntity<User> getUser(@PathVariable Long id) {
         User user = userService.findUserById(id);
         return ResponseEntity.ok(user);
     }
 
-    @DeleteMapping("admin/users/{id}")
+    @DeleteMapping("deleteUser/{id}")
     public ResponseEntity<Void> deleteUser(@PathVariable Long id) {
         userService.deleteUser(id);
         return ResponseEntity.noContent().build();
     }
-//   fetch_edit.html
 
-    @PutMapping("admin/users/{id}")
+    //   fetch_edit.html
+    @PutMapping("newUser/{id}")
     public ResponseEntity<User> updateUser(@PathVariable Long id, @RequestBody User user) {
         user.setId(id);
         User updatedUser = userService.saveUser(user);
         return ResponseEntity.ok(updatedUser);
     }
-
 }

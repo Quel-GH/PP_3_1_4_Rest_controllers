@@ -2,6 +2,9 @@ package ru.kata.spring.boot_security.demo.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -30,11 +33,11 @@ public class UserServiceImp implements UserService {
         this.passwordEncoder = passwordEncoder;
     }
 
-
+    @Override
     public User findByUsername(String username) {
         return userRepository.findByUsername(username);
     }
-
+    @Override
     public User findUserById(Long userId){
         Optional<User> userFromDb = userRepository.findById(userId);
         if (userFromDb.isEmpty()) {
@@ -43,13 +46,14 @@ public class UserServiceImp implements UserService {
         }
         return userFromDb.orElse(new User());
     }
-
+    @Override
     public List<User> allUsers() {
         return userRepository.findAll();
     }
 
 
     @Transactional
+    @Override
     public User saveUser(User user) {
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         userRepository.save(user);
@@ -57,6 +61,7 @@ public class UserServiceImp implements UserService {
     }
 
     @Transactional
+    @Override
     public boolean deleteUser(Long userId) {
         if (userRepository.findById(userId).isPresent()) {
             userRepository.deleteById(userId);
@@ -67,7 +72,11 @@ public class UserServiceImp implements UserService {
 
     @Override
     public User getCurrentUser() {
-//        TODO сделать логику, чтобы вытащить данные о залогиненным пользователи
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if (authentication != null && authentication.getPrincipal() instanceof UserDetails) {
+            UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+            return findByUsername(userDetails.getUsername());
+        }
         return null;
     }
 

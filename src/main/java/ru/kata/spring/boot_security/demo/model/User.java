@@ -21,10 +21,10 @@ public class User implements UserDetails {
     private String password;
     @Pattern(regexp = "^[a-zA-Zа-яА-ЯёЁ]{2,}$"
             , message = "длина должна быть больше 2 символов, и может содержать только буквы")
-    private String first_name;
+    private String firstName;
     @Pattern(regexp = "^[a-zA-Zа-яА-ЯёЁ]{2,}$"
             , message = "длина должна быть больше 2 символов, и может содержать только буквы")
-    private String last_name;
+    private String lastName;
     @NotNull
     @Min(value = 1, message = "возраст должен положительным")
     private int age;
@@ -123,20 +123,20 @@ public class User implements UserDetails {
         this.roles = roles;
     }
 
-    public String getFirst_name() {
-        return first_name;
+    public String getFirstName() {
+        return firstName;
     }
 
-    public void setFirst_name(String first_name) {
-        this.first_name = first_name;
+    public void setFirstName(String first_name) {
+        this.firstName = first_name;
     }
 
-    public String getLast_name() {
-        return last_name;
+    public String getLastName() {
+        return lastName;
     }
 
-    public void setLast_name(String last_name) {
-        this.last_name = last_name;
+    public void setLastName(String last_name) {
+        this.lastName = last_name;
     }
 
     public int getAge() {
@@ -146,4 +146,5 @@ public class User implements UserDetails {
     public void setAge(int age) {
         this.age = age;
     }
+
 }

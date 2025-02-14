@@ -50,8 +50,8 @@ public class DbInit {
         User adminUser = new User();
         adminUser.setEmail("admin@mail.ru");
         adminUser.setPassword(passwordEncoder.encode("admin"));
-        adminUser.setFirst_name("admin");
-        adminUser.setLast_name("admin");
+        adminUser.setFirstName("admin");
+        adminUser.setLastName("admin");
         adminUser.setAge(100);
         Set<Role> roles = new HashSet<>();
         roles.add(roleRepository.getById(2L));
